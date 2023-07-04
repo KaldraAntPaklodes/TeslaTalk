@@ -1,7 +1,11 @@
+import Topbar from "../components/Topbar/Topbar";
+import './LayoutsGreeting.css'
+
 const LoginLayout = ({ children }) => {
   return (
     <div className="login-container">
-      <h1>Hello to my app!</h1>
+      <Topbar />
+      <h4>Welcome to TeslaTalk, the hub for  enthusiasts!</h4>
       {children}
     </div>
   );

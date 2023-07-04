@@ -1,0 +1,41 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: white;
+    color: rgb(0, 0, 0);
+    border-bottom: 1px solid black;
+    height: 5rem;
+    position: relative; /* Add position relative */
+  }
+  
+  .navigation::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../images/TeslasOnTopbar.jpg");
+    filter: blur(2px);
+    background-size: cover;
+    background-position: center;
+    z-index: -1; /* Set a negative z-index to place it behind the content */
+  }
+  
+  .logoImg {
+    width: 5rem;
+  }
+  
+  .navigation a {
+    color: inherit;
+  }
+  
+  a.user-container {
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  

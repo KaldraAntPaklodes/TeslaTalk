@@ -1,5 +1,17 @@
-const Main = () =>{
-    return <div>Main</div>
-}
+import React, { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import TopicCreationBox from "../../components/TopicCreationBox/TopicCreationBox";
 
-export default Main
+const MainPage = () => {
+  const { isLoggedIn } = useContext(UserContext);
+
+  return (
+    <div className="mainPageContainer">
+      <h1>Main Page</h1>
+
+      {isLoggedIn && <TopicCreationBox />}
+    </div>
+  );
+};
+
+export default MainPage;

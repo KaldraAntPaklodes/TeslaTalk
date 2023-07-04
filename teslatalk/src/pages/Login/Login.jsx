@@ -4,7 +4,6 @@ import { UserContext } from "../../context/UserContext";
 import FormItem from "../../components/FormItem/FormItem";
 import Button from "../../components/Button/Button";
 import { REGISTER_ROUTE } from "../../routes/const";
-import "./Login.css";
 
 const Login = () => {
   const { handleLogin } = useContext(UserContext);

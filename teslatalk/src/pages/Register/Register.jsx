@@ -4,7 +4,8 @@ import { UserContext } from "../../context/UserContext";
 import Button from "../../components/Button/Button";
 import FormItem from "../../components/FormItem/FormItem";
 import { LOGIN_ROUTE } from "../../routes/const";
-import "../Login/Login.css";
+import './Register.css'
+import logo from "../../images/TeslaTalkLogo.png"
 
 // DRY - dont repeat yourself
 
@@ -24,6 +25,7 @@ const Register = () => {
 
   return (
     <div className="container">
+      <img src={logo} alt="logo" />
       <form className="form" onSubmit={handleSubmit}>
         <FormItem
           label="Name"
