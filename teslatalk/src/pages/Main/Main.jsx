@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
-import TopicCreationBox from "../../components/TopicCreationBox/TopicCreationBox";
+import { TOPICS_ROUTE } from "../../routes/const";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
-  const { isLoggedIn } = useContext(UserContext);
-
   return (
     <div className="mainPageContainer">
       <h1>Main Page</h1>
 
-      {isLoggedIn && <TopicCreationBox />}
+      <Link to={TOPICS_ROUTE}>Search Topics</Link>
+      
     </div>
   );
 };

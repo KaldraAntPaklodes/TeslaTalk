@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_ROUTE } from "../routes/const";
+import { LOGIN_ROUTE, MAIN_ROUTE } from "../routes/const";
 import { checkUserCredentials } from "../utils/user";
 
 const UserContext = createContext({
@@ -25,6 +25,7 @@ const UserProvider = ({ children }) => {
         const existingUser = checkUserCredentials(response, user);
         if (existingUser) {
           setUser(existingUser);
+          navigate(MAIN_ROUTE);
         } else {
           setError("User email or password is incorrect.");
         }
