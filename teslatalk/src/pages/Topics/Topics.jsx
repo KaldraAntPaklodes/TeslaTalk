@@ -41,7 +41,7 @@ const Topics = () => {
     return <div>There are no topics yet.</div>;
   }
 
-  else return (
+  return (
     <div>
         <NewTopicButton/>
         <div className="topics">

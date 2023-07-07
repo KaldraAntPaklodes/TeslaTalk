@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate, generatePath } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import FormItem from "../../components/FormItem/FormItem";
@@ -8,22 +8,35 @@ import { TOPICS_ROUTE, TOPIC_ROUTE } from "../../routes/const";
 
 // TODO write PropTypes from project;
 
-// const formatDate = (date) => date.split("T")[0]; // yyyy-mm-dd TODO move to date utils
-
 const NewTopic = ({ topic }) => {
   const { user } = useContext(UserContext);
   const [title, setTitle] = useState(topic?.title || "");
   const [question, setQuestion] = useState(topic?.question || "");
+  const [id, setId] = useState(null);
   const isEditing = !!topic;
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isEditing) {
+      // Fetch the latest ID for a new topic
+      generateNewId();
+    }
+  }, [isEditing]);
+
+  const generateNewId = () => {
+    // Call your API function or generate a unique ID using any suitable logic
+    // For simplicity, let's increment the ID based on the current timestamp
+    const newId = Date.now();
+    setId(newId);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const submittingTopic = {
       title,
       question,
-      creator:user.name
+      creator: user.name,
+      id,
     };
 
     const saveTopic = isEditing ? updateTopic : createTopic;
@@ -57,7 +70,19 @@ const NewTopic = ({ topic }) => {
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
       />
-      <Button type="submit" >{isEditing ? "Edit" : "Create"} Topic</Button>
+      {isEditing && (
+        <p>
+          Current ID: <strong>{topic.id}</strong>
+        </p>
+      )}
+      {!isEditing && id !== null && (
+        <p>
+          Generated ID: <strong>{id}</strong>
+        </p>
+      )}
+      <Button type="submit">
+        {isEditing ? "Edit" : "Create"} Topic
+      </Button>
     </form>
   );
 };
