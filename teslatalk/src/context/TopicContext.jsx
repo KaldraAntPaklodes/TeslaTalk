@@ -56,12 +56,12 @@ const TopicProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider
-      value={{ user, isLoggedIn, handleLogin, handleLogout, handleRegister }}
+    <TopicContext.Provider
+      value={{ topic, isTopicExist, handleCreateTopic, handleDeleteTopic, handleSearchTopic }}
     >
       {children}
-    </UserContext.Provider>
+    </TopicContext.Provider>
   );
 };
 
-export { UserContext, UserProvider };
+export { TopicContext, TopicProvider };

@@ -6,7 +6,7 @@ const MainPage = () => {
     <div className="mainPageContainer">
       <h1>Main Page</h1>
 
-      <Link to={TOPICS_ROUTE}>Search Topics</Link>
+      <Link to={TOPICS_ROUTE}>See Topics</Link>
       
     </div>
   );

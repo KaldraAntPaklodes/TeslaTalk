@@ -21,7 +21,6 @@ const NewTopic = ({ topic }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const submittingTopic = {
-      userId: user.id,
       title,
       question,
       creator:user.name
