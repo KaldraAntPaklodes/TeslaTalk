@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
-import { NEW_TOPIC_ROUTE } from "../../routes/const"
+import { NEW_ANSWER_ROUTE } from "../../routes/const"
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
-const NewTopicButton=()=>{
+const NewAnswerButton=()=>{
 
     const { isLoggedIn } = useContext(UserContext);
 
@@ -12,8 +12,8 @@ const NewTopicButton=()=>{
     }
     
     return(
-        <div className="newTopicButton"><Link to={NEW_TOPIC_ROUTE}>Create New Topic</Link></div>
+        <div className="newAnswerButton"><Link to={NEW_ANSWER_ROUTE}>Create New Answer</Link></div>
     )
 }
 
-export default NewTopicButton
+export default NewAnswerButton

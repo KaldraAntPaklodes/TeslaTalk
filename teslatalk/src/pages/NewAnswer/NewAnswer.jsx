@@ -3,32 +3,32 @@ import { useNavigate, generatePath } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import FormItem from "../../components/FormItem/FormItem";
 import { UserContext } from "../../context/UserContext";
-import { createTopic, updateTopic } from "../../api/topics";
+import { createAnswer, updateAnswer } from "../../api/answers";
 import { TOPICS_ROUTE, TOPIC_ROUTE } from "../../routes/const";
 
 // TODO write PropTypes from project;
 
-const NewTopic = ({ topic }) => {
+const NewAnswer = ({ topic }) => {
   const { user } = useContext(UserContext);
-  const [title, setTitle] = useState(topic?.title || "");
-  const [question, setQuestion] = useState(topic?.question || "");
+  const [title] = useState(topic?.title);
+  const [answer, setAnswer] = useState(topic?.answer || "");
   const isEditing = !!topic;
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const submittingTopic = {
+    const submittingAnswer = {
       title,
-      question,
+      answer,
       creator: user.name,
     };
-
-    const saveTopic = isEditing ? updateTopic : createTopic;
-    const savingTopic = isEditing
-      ? { id: topic.id, ...submittingTopic }
-      : submittingTopic;
-
-    saveTopic(savingTopic)
+  
+    const saveAnswer = isEditing ? updateAnswer : createAnswer;
+    const savingAnswer = isEditing
+      ? { id: topic.id, ...submittingAnswer }
+      : submittingAnswer;
+  
+    saveAnswer(savingAnswer)
       .then(() => {
         const route = isEditing
           ? generatePath(TOPIC_ROUTE, { id: topic.id })
@@ -39,31 +39,20 @@ const NewTopic = ({ topic }) => {
         console.log(error);
       });
   };
-
   return (
     <form onSubmit={handleSubmit}>
+        <h1>{title}</h1>
       <FormItem
         type="text"
-        label="Topic Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        label="Answer"
+        value={answer}
+        onChange={(e) => setAnswer(e.target.value)}
       />
-      <FormItem
-        type="text"
-        label="Question"
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-      />
-      {isEditing && (
-        <p>
-          Current ID: <strong>{topic.id}</strong>
-        </p>
-      )}
       <Button type="submit">
-        {isEditing ? "Edit" : "Create"} Topic
+        {isEditing ? "Edit" : "Create"} Answer
       </Button>
     </form>
   );
 };
 
-export default NewTopic;
+export default NewAnswer;

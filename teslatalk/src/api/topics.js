@@ -17,7 +17,7 @@ export const createTopic = async (project) => {
 
 export const updateTopic = async (project) => {
   const response = await axios.put(
-    `http://localhost:3000/topics/${project.id}`,
+    `http://localhost:3000/topics/edit/${project.id}`,
     project
   );
   return response.data;

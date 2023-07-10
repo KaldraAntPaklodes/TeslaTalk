@@ -1,16 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, generatePath } from "react-router-dom";
 import { getTopics } from "../../api/topics";
 import TopicCard from "./TopicCard";
 import { TOPIC_ROUTE } from "../../routes/const";
 import Loader from "../../components/Loader/Loader";
 import NewTopicButton from "../../components/Button/NewTopicButton";
-import { UserContext } from "../../context/UserContext";
+
 
 const Topics = () => {
   const [topics, setTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoggedIn } = useContext(UserContext);
+ 
 
   useEffect(() => {
     setIsLoading(true);
@@ -30,15 +30,11 @@ const Topics = () => {
     return <Loader/>;
   }
 
-  if (topics.length === 0 && isLoggedIn) {
+  if (topics.length === 0) {
     return <div>
         <NewTopicButton/>
         There are no topics yet.
         </div>;
-  }
-
-  if (topics.length === 0) {
-    return <div>There are no topics yet.</div>;
   }
 
   return (
