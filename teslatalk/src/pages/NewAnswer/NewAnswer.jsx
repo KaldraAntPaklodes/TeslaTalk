@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { useNavigate, generatePath } from "react-router-dom";
+import { useNavigate, generatePath, useSearchParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import FormItem from "../../components/FormItem/FormItem";
 import { UserContext } from "../../context/UserContext";
 import { createAnswer, updateAnswer } from "../../api/answers";
-import { TOPICS_ROUTE, TOPIC_ROUTE } from "../../routes/const";
+import { TOPIC_ROUTE } from "../../routes/const";
+import "./NewAnswer.css"
 
 // TODO write PropTypes from project;
 
@@ -14,6 +15,10 @@ const NewAnswer = ({ topic }) => {
   const [answer, setAnswer] = useState(topic?.answer || "");
   const isEditing = !!topic;
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const topicId = searchParams.get("topicId")
+
+  console.log("topicas", topic)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,18 +26,17 @@ const NewAnswer = ({ topic }) => {
       title,
       answer,
       creator: user.name,
+      userId: user._id
     };
   
     const saveAnswer = isEditing ? updateAnswer : createAnswer;
     const savingAnswer = isEditing
-      ? { id: topic.id, ...submittingAnswer }
+      ? { _id: topic._id, ...submittingAnswer }
       : submittingAnswer;
   
-    saveAnswer(savingAnswer)
+    saveAnswer(savingAnswer, topicId)
       .then(() => {
-        const route = isEditing
-          ? generatePath(TOPIC_ROUTE, { id: topic.id })
-          : TOPICS_ROUTE;
+        const route = generatePath(TOPIC_ROUTE, { id: topicId?? topic.topicId });
         navigate(route);
       })
       .catch((error) => {
@@ -40,17 +44,19 @@ const NewAnswer = ({ topic }) => {
       });
   };
   return (
-    <form onSubmit={handleSubmit}>
-        <h1>{title}</h1>
+    <form className="newAnswerForm" onSubmit={handleSubmit}>
+      <h1 className="newAnswerTitle">{title}</h1>
       <FormItem
         type="text"
         label="Answer"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
       />
-      <Button type="submit">
-        {isEditing ? "Edit" : "Create"} Answer
-      </Button>
+      <div className="newAnswerButton">
+        <Button type="submit">
+          {isEditing ? "Edit" : "Create"} Answer
+        </Button>
+      </div>
     </form>
   );
 };

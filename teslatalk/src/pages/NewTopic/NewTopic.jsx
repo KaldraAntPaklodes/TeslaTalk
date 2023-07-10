@@ -21,17 +21,18 @@ const NewTopic = ({ topic }) => {
       title,
       question,
       creator: user.name,
+      userId: user._id
     };
 
     const saveTopic = isEditing ? updateTopic : createTopic;
     const savingTopic = isEditing
-      ? { id: topic.id, ...submittingTopic }
+      ? { id: topic._id, ...submittingTopic }
       : submittingTopic;
 
     saveTopic(savingTopic)
       .then(() => {
         const route = isEditing
-          ? generatePath(TOPIC_ROUTE, { id: topic.id })
+          ? generatePath(TOPIC_ROUTE, { id: topic._id })
           : TOPICS_ROUTE;
         navigate(route);
       })
@@ -56,7 +57,7 @@ const NewTopic = ({ topic }) => {
       />
       {isEditing && (
         <p>
-          Current ID: <strong>{topic.id}</strong>
+          Current ID: <strong>{topic._id}</strong>
         </p>
       )}
       <Button type="submit">

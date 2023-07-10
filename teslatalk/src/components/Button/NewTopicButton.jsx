@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { NEW_TOPIC_ROUTE } from "../../routes/const"
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import "./NewTopicButton.css"
 
 const NewTopicButton=()=>{
 

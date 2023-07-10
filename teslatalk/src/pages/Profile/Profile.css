@@ -1,0 +1,30 @@
+.profileContainer {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }
+  
+  .profileHeading {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .profileInfo {
+    margin-bottom: 20px;
+  }
+  
+  .profileField {
+    margin-bottom: 10px;
+  }
+  
+  .profileFieldKey {
+    font-weight: bold;
+  }
+  
+  .logoutButton {
+    display: block;
+    margin: 0 auto;
+  }
+  

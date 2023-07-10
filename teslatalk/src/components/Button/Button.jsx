@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import "./Button.css"
 
 const Button = ({ className, children, ...props }) => {
   return (

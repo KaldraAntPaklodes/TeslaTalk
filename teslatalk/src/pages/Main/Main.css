@@ -1,0 +1,25 @@
+.mainPageContainer {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .mainPageTitle {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .topicsLink {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  .topicsLink:hover {
+    background-color: #0056b3;
+  }
+  

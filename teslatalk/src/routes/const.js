@@ -9,6 +9,7 @@ import NewTopic from "../pages/NewTopic/NewTopic";
 import Topic from "../pages/Topic/Topic";
 import EditTopic from "../pages/EditTopic/EditTopic";
 import NewAnswer from "../pages/NewAnswer/NewAnswer";
+import EditAnswer from "../pages/NewAnswer/EditAnswer";
 
 export const REGISTER_ROUTE = "/register";
 export const LOGIN_ROUTE = "/login";
@@ -18,7 +19,9 @@ export const TOPICS_ROUTE = "/topics"
 export const NEW_TOPIC_ROUTE = `${TOPICS_ROUTE}/new`;
 export const TOPIC_ROUTE = `${TOPICS_ROUTE}/:id`;
 export const EDIT_TOPIC_ROUTE = `${TOPICS_ROUTE}/edit/:id`;
-export const NEW_ANSWER_ROUTE = `${TOPICS_ROUTE}/:id/answers`
+export const NEW_ANSWER_ROUTE = `${TOPICS_ROUTE}/answers/`
+export const EDIT_ANSWER_ROUTE = `/editAnswers/:id`
+
 
 // kol neesu prisijnugęs
 export const loginRoutes = {
@@ -78,6 +81,10 @@ export const authenticatedRoutes = {
     {
       path: NEW_ANSWER_ROUTE,
       Component: NewAnswer,
+    },
+    {
+      path: EDIT_ANSWER_ROUTE,
+      Component: EditAnswer,
     }
   ]
 };

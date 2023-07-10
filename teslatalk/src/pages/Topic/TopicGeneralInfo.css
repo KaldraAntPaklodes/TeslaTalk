@@ -1,0 +1,19 @@
+.TopicGeneralInfo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .TopicGeneralInfo h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .TopicGeneralInfo p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .TopicGeneralInfo p.creator {
+    color: #888;
+  }
+  

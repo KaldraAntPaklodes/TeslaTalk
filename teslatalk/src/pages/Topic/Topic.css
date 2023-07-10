@@ -1,0 +1,78 @@
+.topicContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .projectActions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .answers {
+    display: flex;
+    flex-direction: column; /* Update to column layout */
+    gap: 20px;
+  }
+  
+  .topicCard {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }
+  
+  .topicCard:hover {
+    background-color: #e1e1e1;
+  }
+  
+  .newAnswerButton,
+  .newTopicButton {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .newAnswerButton a,
+  .newTopicButton a {
+    padding: 10px 20px;
+    background-color: #2979ff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .newAnswerButton a:hover,
+  .newTopicButton a:hover {
+    background-color: #2962ff;
+  }
+  
+  .AnswerCard {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .AnswerCard .title {
+    flex: 1;
+  }
+  
+  .AnswerCard button {
+    margin-left: 10px;
+  }
+  
+  .noTopicsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .noTopicsMessage {
+    margin-top: 20px;
+    font-style: italic;
+    color: #888;
+  }

@@ -5,13 +5,12 @@ import { getTopic } from "../../api/topics";
 import TopicGeneralInfo from "./TopicGeneralInfo";
 import TopicActions from "./TopicActions";
 import NewAnswerButton from "../../components/Button/NewAnswerButton";
-import { getAnswers } from "../../api/answers";
 import AnswerCard from "../NewAnswer/AnswerCard";
+import "./Topic.css"
 
 const Topic = () => {
   const { id } = useParams();
   const [topic, setTopic] = useState(null);
-  const [answers, setAnswers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -28,38 +27,36 @@ const Topic = () => {
       });
   }, [id]);
 
-  useEffect(() => {
-    setIsLoading(true);
-    getAnswers(id)
-      .then((response) => {
-        setAnswers(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [id]);
-
-  if (isLoading) {
+  if (isLoading || !topic) {
     return <Loader />;
-  }
-
-  if (!topic) {
-    return <div>Topic not found</div>;
   }
 
   return (
     <div className="topicContainer">
-      <TopicActions id={topic.id} />
+      <TopicActions topic={topic} />
       <TopicGeneralInfo project={topic} />
 
       <div>
-        <NewAnswerButton />
+        <NewAnswerButton topicId={topic._id} />
         <div className="answers">
-          {answers.map((answer) => (
-            <AnswerCard key={answer.id} answer={answer.answer} />
+          {topic.answers.map((answer) => (
+            <AnswerCard
+              key={answer._id}
+              answer={answer}
+              onSuccess={() => {
+                setIsLoading(true)
+                getTopic(id)
+                  .then((response) => {
+                    setTopic(response);
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  })
+                  .finally(() => {
+                    setIsLoading(false);
+                  });
+              }}
+            />
           ))}
         </div>
       </div>

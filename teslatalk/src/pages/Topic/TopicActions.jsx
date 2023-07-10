@@ -6,14 +6,14 @@ import { TOPICS_ROUTE, EDIT_TOPIC_ROUTE } from "../../routes/const";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
-const TopicActions = ({ id }) => {
-
-  const {isLoggedIn} = useContext(UserContext)
+const TopicActions = ({ topic }) => {
+  const { isLoggedIn, user } = useContext(UserContext);
+  const canManage = user?._id && topic.userId === user._id;
 
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    deleteTopic(id)
+    deleteTopic(topic._id)
       .then(() => {
         navigate(TOPICS_ROUTE);
       })
@@ -23,25 +23,33 @@ const TopicActions = ({ id }) => {
   };
 
   const handleEdit = () => {
-    const path = generatePath(EDIT_TOPIC_ROUTE, { id });
+    const path = generatePath(EDIT_TOPIC_ROUTE, { id: topic._id });
     navigate(path);
   };
 
-  if(!isLoggedIn){
-    return(
-      <Link to={TOPICS_ROUTE}><Button>Back to Topics</Button></Link>
-    )
+  if (!isLoggedIn) {
+    return (
+      <Link to={TOPICS_ROUTE}>
+        <Button>Back to Topics</Button>
+      </Link>
+    );
   }
 
   return (
     <div className="projectActions">
-      <Button variant="outlined" onClick={handleEdit}>
-        Edit Topic
-      </Button>
-      <Button color="error" onClick={handleDelete}>
-        Delete Topic
-      </Button>
-      <Link to={TOPICS_ROUTE}><Button>Back to Topics</Button></Link>
+      {canManage && (
+        <>
+          <Button variant="outlined" onClick={handleEdit}>
+            Edit Topic
+          </Button>
+          <Button color="error" onClick={handleDelete}>
+            Delete Topic
+          </Button>
+        </>
+      )}
+      <Link to={TOPICS_ROUTE}>
+        <Button>Back to Topics</Button>
+      </Link>
     </div>
   );
 };

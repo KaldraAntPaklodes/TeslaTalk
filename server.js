@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const { MongoClient } = require('mongodb');
-require('dotenv').config();
+const express = require("express");
+const cors = require("cors");
+const { MongoClient, ObjectId } = require("mongodb");
+require("dotenv").config();
 
 const port = process.env.PORT || 8080;
 
@@ -14,12 +14,23 @@ app.use(cors());
 
 const client = new MongoClient(URI);
 
-app.get('/users', async (req, res) => {
+app.get("/users", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con.db("teslatalk").collection("users").find().toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/topics", async (req, res) => {
   try {
     const con = await client.connect();
     const data = await con
-      .db('teslatalk')
-      .collection('users')
+      .db("teslatalk")
+      .collection("topics")
       .find()
       .toArray();
     await con.close();
@@ -29,29 +40,11 @@ app.get('/users', async (req, res) => {
   }
 });
 
-app.get('/topics', async (req, res) => {
-  try {
-    const con = await client.connect();
-    const data = await con
-      .db('teslatalk')
-      .collection('topics')
-      .find()
-      .toArray();
-    await con.close();
-    res.send(data);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-app.post('/users', async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
     const user = req.body;
     const con = await client.connect();
-    const data = await con
-      .db('teslatalk')
-      .collection('users')
-      .insertOne(user);
+    const data = await con.db("teslatalk").collection("users").insertOne(user);
     await con.close();
     res.send(data);
   } catch (error) {
@@ -59,13 +52,13 @@ app.post('/users', async (req, res) => {
   }
 });
 
-app.post('/topics', async (req, res) => {
+app.post("/topics", async (req, res) => {
   try {
     const topic = req.body;
     const con = await client.connect();
     const data = await con
-      .db('teslatalk')
-      .collection('topics')
+      .db("teslatalk")
+      .collection("topics")
       .insertOne(topic);
     await con.close();
     res.send(data);
@@ -74,132 +67,155 @@ app.post('/topics', async (req, res) => {
   }
 });
 
-app.delete('/topics/:id', async (req, res) => {
+app.delete("/topics/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const con = await client.connect();
     const result = await con
-      .db('teslatalk')
-      .collection('topics')
+      .db("teslatalk")
+      .collection("topics")
       .deleteOne({ id: parseInt(id) }); // Delete the topic with the provided id
     await con.close();
 
     if (result.deletedCount === 1) {
-      res.send({ message: 'Topic deleted successfully' });
+      res.send({ message: "Topic deleted successfully" });
     } else {
-      res.status(404).send('Topic not found');
+      res.status(404).send("Topic not found");
     }
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-
-app.get('/topics/:id', async (req, res) => {
+app.get("/topics/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const con = await client.connect();
+    const answers = await con
+      .db("teslatalk")
+      .collection("answers")
+      .find({ topicId: id })
+      .toArray();
+      const objectId = new ObjectId(id)
     const data = await con
       .db("teslatalk")
-      .collection('topics')
-      .findOne({ id: parseInt(id) }); // Fetch the topic with the provided id
+      .collection("topics")
+      .findOne({ "_id": objectId });
     await con.close();
 
     if (data) {
-      res.send(data);
+      res.send({ ...data, answers });
     } else {
-      res.status(404).send('Topic not found');
+      res.status(404).send("Topic not found");
     }
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-app.put('/topics/edit/:id', async (req, res) => {
+app.put("/topics/edit/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const updatedTopic = req.body;
     const con = await client.connect();
     const result = await con
-      .db('teslatalk')
-      .collection('topics')
+      .db("teslatalk")
+      .collection("topics")
       .updateOne({ id: parseInt(id) }, { $set: updatedTopic }); // Update the topic with the provided id
     await con.close();
 
     if (result.matchedCount === 1) {
-      res.send({ message: 'Topic updated successfully' });
+      res.send({ message: "Topic updated successfully" });
     } else {
-      res.status(404).send('Topic not found');
+      res.status(404).send("Topic not found");
     }
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-  app.delete('/topics/:id/answers/:id', async (req, res)=> {
-    try {
-      const id = req.params.id;
-      const con = await client.connect();
-      const result = await con
-        .db('teslatalk')
-        .collection('answers')
-        .deleteOne({ id: parseInt(id) }); // Delete the topic with the provided id
-      await con.close();
-  
-      if (result.deletedCount === 1) {
-        res.send({ message: 'Answer deleted successfully' });
-      } else {
-        res.status(404).send('Answer not found');
-      }
-    } catch (error) {
-      res.status(500).send(error);
+app.delete("/answers/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const con = await client.connect();
+    const objectId = new ObjectId(id)
+    const result = await con
+      .db("teslatalk")
+      .collection("answers")
+      .deleteOne({ "_id": objectId });
+    await con.close();
+
+    if (result.deletedCount === 1) {
+      res.send({ message: "Answer deleted successfully" });
+    } else {
+      res.status(404).send("Answer not found");
     }
-  });
-  
-  
-  app.get('/topics/:id/answers', async (req, res) => {
-    try {
-      const id = req.params.id;
-      const con = await client.connect();
-      const data = await con
-        .db("teslatalk")
-        .collection('answers')
-        .findOne({ id: parseInt(id) }); // Fetch the topic with the provided id
-      await con.close();
-  
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send('Answers not found');
-      }
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  });
-  
-  app.put('/topics/:id/answers/edit/:id', async (req, res) => {
-    try {
-      const id = req.params.id;
-      const updatedTopic = req.body;
-      const con = await client.connect();
-      const result = await con
-        .db('teslatalk')
-        .collection('answers')
-        .updateOne({ id: parseInt(id) }, { $set: updatedAnswer }); // Update the answer with the provided id
-      await con.close();
-  
-      if (result.matchedCount === 1) {
-        res.send({ message: 'Answer updated successfully' });
-      } else {
-        res.status(404).send('Answer not found');
-      }
-    } catch (error) {
-      res.status(500).send(error);
-    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
+app.get("/answers/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log("dsdsds", id)
+    const con = await client.connect();
+    const objectId = new ObjectId(id)
+    const result = await con
+      .db("teslatalk")
+      .collection("answers")
+      .findOne({ "_id": objectId });
+    await con.close();
 
+    if (result) {
+      res.send(result);
+    } else {
+      res.status(404).send("Answer not found");
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error);
+  }
+});
 
+app.put("/answers/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const objectId = new ObjectId(id)
+    const {_id,...rest} = req.body;
+    const con = await client.connect();
+    const result = await con
+      .db("teslatalk")
+      .collection("answers")
+      .updateOne({ "_id": objectId }, { $set: rest });
+    await con.close();
+
+    if (result.matchedCount === 1) {
+      res.send({ message: "Answer updated successfully" });
+    } else {
+      res.status(404).send("Answer not found");
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error);
+  }
+});
+
+app.post("/topics/:id/answers/", async (req, res) => {
+  try {
+    const topicId = req.params.id;
+    const answer = { ...req.body, topicId };
+    const con = await client.connect();
+    const data = await con
+      .db("teslatalk")
+      .collection("answers")
+      .insertOne(answer);
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on the ${port} port`);

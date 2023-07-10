@@ -3,7 +3,7 @@ import { NEW_ANSWER_ROUTE } from "../../routes/const"
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
-const NewAnswerButton=()=>{
+const NewAnswerButton=({topicId})=>{
 
     const { isLoggedIn } = useContext(UserContext);
 
@@ -12,7 +12,7 @@ const NewAnswerButton=()=>{
     }
     
     return(
-        <div className="newAnswerButton"><Link to={NEW_ANSWER_ROUTE}>Create New Answer</Link></div>
+        <div className="newAnswerButton"><Link to={{pathname:NEW_ANSWER_ROUTE,search:`?topicId=${topicId}`}}>Create New Answer</Link></div>
     )
 }
 
