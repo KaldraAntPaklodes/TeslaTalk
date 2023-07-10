@@ -7,7 +7,7 @@ import { generatePath, useNavigate } from "react-router-dom";
 
 const AnswerCard = ({ answer, onSuccess }) => {
   const userContext = useContext(UserContext);
-  const canManage = answer.userId === userContext.user._id;
+  const canManage = answer.userId === (userContext.user && userContext.user._id);
   const navigate = useNavigate();
 
   const handleDelete = () => {

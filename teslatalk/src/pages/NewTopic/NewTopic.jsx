@@ -5,6 +5,7 @@ import FormItem from "../../components/FormItem/FormItem";
 import { UserContext } from "../../context/UserContext";
 import { createTopic, updateTopic } from "../../api/topics";
 import { TOPICS_ROUTE, TOPIC_ROUTE } from "../../routes/const";
+import "./NewTopic.css"
 
 // TODO write PropTypes from project;
 
@@ -42,25 +43,22 @@ const NewTopic = ({ topic }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form">
       <FormItem
         type="text"
         label="Topic Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        className="input"
       />
       <FormItem
         type="text"
         label="Question"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
+        className="input"
       />
-      {isEditing && (
-        <p>
-          Current ID: <strong>{topic._id}</strong>
-        </p>
-      )}
-      <Button type="submit">
+      <Button type="submit" className="button">
         {isEditing ? "Edit" : "Create"} Topic
       </Button>
     </form>
